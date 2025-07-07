@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 3em;
+      margin-bottom: 40px;
+    }
+
+    .wallet {
+      background: white;
+      border-radius: 16px;
+      padding: 30px 50px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      margin: 20px;
+      width: 300px;
+    }
+
+    .label {
+      font-size: 1.2em;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .balance {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .wallets-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wallet</h1>
+
+  <div class="wallets-container">
+    <div class="wallet">
+      <div class="label">Bitcoin (BTC)</div>
+      <div class="balance" id="btcBalance">Loading...</div>
+      <button onclick="demoIncrease('BTC')">Demo Increase BTC</button>
+    </div>
+
+    <div class="wallet">
+      <div class="label">Ethereum (ETH)</div>
+      <div class="balance" id="ethBalance">Loading...</div>
+      <button onclick="demoIncrease('ETH')">Demo Increase ETH</button>
+    </div>
+  </div>
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Sparkle sound -->
+  <audio id="sparkleSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8e8584eb7b.mp3?filename=game-notification-199027.mp3" preload="auto"></audio>
+
+  <script>
+    const BTC_ADDRESS = "bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep"; 
+    const ETH_ADDRESS = "your_eth_address_here"; 
+    const ETHERSCAN_API_KEY = "YourApiKeyToken"; 
+
+    let currentBTC = 0;
+    let currentETH = 0;
+
+    function animateValue(element, start, end, duration, suffix, triggerConfetti = false) {
+      let startTime = null;
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const value = start + (end - start) * progress;
+        element.textContent = value.toFixed(8) + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+      requestAnimationFrame(step);
+      
+      // Play confetti + sound if balance increased
+      if (triggerConfetti && end > start) {
+        launchConfetti();
+        playSparkle();
+      }
+    }
+
+    function launchConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function playSparkle() {
+      const sound = document.getElementById("sparkleSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    async function loadBalances() {
+      try {
+        const btcRes = await fetch(`https://blockchain.info/q/addressbalance/${BTC_ADDRESS}?confirmations=6`);
+        const sats = await btcRes.text();
+        const btc = parseInt(sats) / 1e8;
+        animateValue(document.getElementById("btcBalance"), currentBTC, btc, 1000, " BTC", btc > currentBTC);
+        currentBTC = btc;
+      } catch {
+        document.getElementById("btcBalance").textContent = "Error";
+      }
+
+      try {
+        const ethRes = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${ETH_ADDRESS}&tag=latest&apikey=${ETHERSCAN_API_KEY}`);
+        const data = await ethRes.json();
+        if (data.status === "1") {
+          const eth = parseInt(data.result) / 1e18;
+          animateValue(document.getElementById("ethBalance"), currentETH, eth, 1000, " ETH", eth > currentETH);
+          currentETH = eth;
+        } else {
+          document.getElementById("ethBalance").textContent = "Error";
+        }
+      } catch {
+        document.getElementById("ethBalance").textContent = "Error";
+      }
+    }
+
+    function demoIncrease(type) {
+      if (type === "BTC") {
+        const newBTC = currentBTC + Math.random() * 0.001;
+        animateValue(document.getElementById("btcBalance"), currentBTC, newBTC, 1000, " BTC", true);
+        currentBTC = newBTC;
+      } else if (type === "ETH") {
+        const newETH = currentETH + Math.random() * 0.01;
+        animateValue(document.getElementById("ethBalance"), currentETH, newETH, 1000, " ETH", true);
+        currentETH = newETH;
+      }
+    }
+
+    loadBalances();
+    setInterval(loadBalances, 30000);
+  </script>
+</body>
+</html>
