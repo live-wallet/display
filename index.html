@@ -14,27 +14,13 @@
       align-items: center;
       min-height: 100vh;
       margin: 0;
+      padding: 40px 20px;
       color: #333;
     }
-
-    .hero-panel {
-      width: 100%;
-      height: 220px;
-      background: url('https://source.unsplash.com/1600x400?sky') center/cover no-repeat;
-      position: relative;
-    }
-    .hero-panel::after {
-      content: "";
-      position: absolute;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.2);
-    }
-
     h1 {
       font-size: 2.2em;
-      margin: 30px 0;
+      margin-bottom: 30px;
     }
-
     .wallets-container {
       display: flex;
       gap: 20px;
@@ -66,7 +52,6 @@
       font-size: 1em;
       color: #444;
     }
-
     .contact-footer {
       margin-top: 40px;
       padding: 20px 0;
@@ -90,8 +75,6 @@
   </style>
 </head>
 <body>
-
-  <div class="hero-panel"></div>
 
   <h1>Wallet Balance</h1>
 
@@ -123,6 +106,7 @@
     let ethBalance = 0;
 
     function updateBalance() {
+      // Simulate new random increase
       let btcIncrease = (Math.random() * 0.001).toFixed(6);
       let ethIncrease = (Math.random() * 0.01).toFixed(5);
 
@@ -145,13 +129,14 @@
     function animateIncrease(id) {
       const el = document.getElementById(id);
       el.style.transform = "scale(1.2)";
-      el.style.color = "#28a745";
+      el.style.color = "#28a745"; // green
       setTimeout(() => {
         el.style.transform = "scale(1)";
         el.style.color = "#333";
       }, 500);
     }
 
+    // Randomly trigger every 5-10 sec
     setInterval(() => {
       updateBalance();
     }, Math.random() * 5000 + 5000);
