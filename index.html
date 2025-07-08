@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      background: #ffffff; /* white background */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -28,10 +28,10 @@
       justify-content: center;
     }
     .wallet {
-      background: #fff;
+      background: #fff; /* white card */
       border-radius: 20px;
       padding: 20px 30px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* subtle shadow */
       text-align: center;
       min-width: 180px;
       transition: transform 0.2s;
@@ -61,7 +61,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(240,240,240,0.6) 50%, rgba(255,255,255,0) 100%);
+      background: #fff; /* white footer */
     }
     .contact-footer a {
       background: linear-gradient(90deg, #0077cc, #00aaff);
@@ -106,7 +106,6 @@
     let ethBalance = 0;
 
     function updateBalance() {
-      // Simulate new random increase
       let btcIncrease = (Math.random() * 0.001).toFixed(6);
       let ethIncrease = (Math.random() * 0.01).toFixed(5);
 
@@ -129,14 +128,13 @@
     function animateIncrease(id) {
       const el = document.getElementById(id);
       el.style.transform = "scale(1.2)";
-      el.style.color = "#28a745"; // green
+      el.style.color = "#28a745";
       setTimeout(() => {
         el.style.transform = "scale(1)";
         el.style.color = "#333";
       }, 500);
     }
 
-    // Randomly trigger every 5-10 sec
     setInterval(() => {
       updateBalance();
     }, Math.random() * 5000 + 5000);
