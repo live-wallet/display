@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wallet Balance</title>
+  <title>Wallet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -17,46 +18,9 @@
 
     h1 {
       color: #333;
-      font-size: 3em;
-      margin-bottom: 40px;
-    }
-
-    .wallet {
-      background: white;
-      border-radius: 16px;
-      padding: 30px 50px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      text-align: center;
-      margin: 20px;
-      width: 300px;
-    }
-
-    .label {
-      font-size: 1.2em;
-      color: #666;
-      margin-bottom: 10px;
-    }
-
-    .balance {
-      font-size: 2.2em;
-      font-weight: bold;
-      color: #222;
-      margin-bottom: 15px;
-    }
-
-    button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #45a049;
+      font-size: 3.5em;
+      margin-bottom: 50px;
+      letter-spacing: 1px;
     }
 
     .wallets-container {
@@ -64,6 +28,52 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 40px;
+    }
+
+    .wallet {
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+      padding: 35px 60px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .wallet:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.25);
+    }
+
+    .label {
+      font-size: 1.3em;
+      color: #444;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .balance {
+      font-size: 2.8em;
+      font-weight: 600;
+      color: #222;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: #45a049;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -84,10 +94,8 @@
     </div>
   </div>
 
-  <!-- Confetti library -->
+  <!-- Confetti & Sound -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-  <!-- Sparkle sound -->
   <audio id="sparkleSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8e8584eb7b.mp3?filename=game-notification-199027.mp3" preload="auto"></audio>
 
   <script>
@@ -111,7 +119,6 @@
       }
       requestAnimationFrame(step);
       
-      // Play confetti + sound if balance increased
       if (triggerConfetti && end > start) {
         launchConfetti();
         playSparkle();
