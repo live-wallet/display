@@ -2,97 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wallet Balance</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <style>
-   body {
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 233, 242, 0.4), transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(223, 241, 255, 0.4), transparent 50%),
-              linear-gradient(135deg, #ece9e6, #ffffff);
-  background-blend-mode: overlay;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     }
-
     h1 {
-      color: #333;
-      font-size: 3.5em;
-      margin-bottom: 50px;
-      letter-spacing: 1px;
+      margin-bottom: 20px;
+      font-size: 3em;
+      color: #222;
     }
-
     .wallets-container {
       display: flex;
+      gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 40px;
     }
     .wallet {
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 16px;
-  padding: 20px 30px;
-  width: 240px; /* FIXED WIDTH */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(10px);
-  text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.wallet:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
-}
-
-.balance {
-  font-size: 2em;
-  font-weight: 600;
-  color: #222;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  margin-bottom: 16px;
-  min-height: 2.2em; /* ensure height stays same */
-}
-
-    
-
-    
-
-    .label {
-      font-size: 1.3em;
-      color: #444;
-      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 16px;
+      padding: 20px 30px;
+      width: 240px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .wallet:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+    }
+    .balance {
+      font-size: 2em;
       font-weight: 600;
+      color: #222;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 16px;
+      min-height: 2.2em;
     }
-
-    
     .info {
-  max-width: 600px;
-  text-align: center;
-  margin-top: 50px;
-  font-size: 1.1em;
-  color: #555;
-  line-height: 1.6;
-    }
-
-    button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 10px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-      background: #45a049;
-      transform: scale(1.05);
+      max-width: 600px;
+      text-align: center;
+      margin-top: 50px;
+      font-size: 1.1em;
+      color: #555;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -101,50 +65,60 @@
 
   <div class="wallets-container">
     <div class="wallet">
-      <div class="label">Bitcoin (BTC)</div>
-      <div class="balance" id="btcBalance">Loading...</div>
-      <button onclick="demoIncrease('BTC')">Demo Increase BTC</button>
+      <div class="balance" id="btcBalance">0 BTC</div>
+      <div>Bitcoin</div>
     </div>
-
     <div class="wallet">
-      <div class="label">Ethereum (ETH)</div>
-      <div class="balance" id="ethBalance">Loading...</div>
-      <button onclick="demoIncrease('ETH')">Demo Increase ETH</button>
+      <div class="balance" id="ethBalance">0 ETH</div>
+      <div>Ethereum</div>
     </div>
   </div>
 
-  <!-- Confetti & Sound -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <audio id="sparkleSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8e8584eb7b.mp3?filename=game-notification-199027.mp3" preload="auto"></audio>
+  <p class="info">
+    Contributions to this wallet are utilized to support and invest in promising small businesses.
+    Your support directly helps entrepreneurs grow and create new opportunities.
+  </p>
 
   <script>
-    const BTC_ADDRESS = "bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep"; 
-    const ETH_ADDRESS = "0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e"; 
-    const ETHERSCAN_API_KEY = "7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW"; 
+    const btcBalanceElement = document.getElementById("btcBalance");
+    const ethBalanceElement = document.getElementById("ethBalance");
 
-    let currentBTC = 0;
-    let currentETH = 0;
+    let btcBalance = 0;
+    let ethBalance = 0;
 
-    function animateValue(element, start, end, duration, suffix, triggerConfetti = false) {
-      let startTime = null;
-      function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        const progress = Math.min((timestamp - startTime) / duration, 1);
-        const value = start + (end - start) * progress;
-        element.textContent = value.toFixed(8) + suffix;
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        }
-      }
-      requestAnimationFrame(step);
-      
-      if (triggerConfetti && end > start) {
-        launchConfetti();
-        playSparkle();
+    const btcAddress = "bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep";
+    const ethAddress = "0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e";
+    const etherscanApiKey = "7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW";
+
+    async function fetchBalances() {
+      try {
+        // Fetch Bitcoin balance (in satoshis, convert to BTC)
+        const btcResponse = await fetch(`https://api.blockcypher.com/v1/btc/main/addrs/${btcAddress}/balance`);
+        const btcData = await btcResponse.json();
+        btcBalance = btcData.final_balance / 100000000; // sat to BTC
+
+        // Fetch Ethereum balance (in Wei, convert to ETH)
+        const ethResponse = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${ethAddress}&tag=latest&apikey=${etherscanApiKey}`);
+        const ethData = await ethResponse.json();
+        ethBalance = parseFloat(ethData.result) / (10 ** 18);
+
+        updateBalances();
+      } catch (error) {
+        console.error("Error fetching balances:", error);
       }
     }
 
-    function launchConfetti() {
+    function updateBalances() {
+      btcBalanceElement.textContent = btcBalance.toFixed(8) + " BTC";
+      ethBalanceElement.textContent = ethBalance.toFixed(8) + " ETH";
+    }
+
+    function triggerAnimation(element) {
+      element.style.transform = "scale(1.1)";
+      setTimeout(() => element.style.transform = "scale(1)", 200);
+    }
+
+    function confettiAnimation() {
       confetti({
         particleCount: 100,
         spread: 70,
@@ -152,61 +126,39 @@
       });
     }
 
-    function playSparkle() {
-      const sound = document.getElementById("sparkleSound");
-      sound.currentTime = 0;
-      sound.play();
+    function sparkleSound() {
+      const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_2116c02709.mp3?filename=game-win-sound-132272.mp3");
+      audio.play();
     }
 
-    async function loadBalances() {
-      try {
-        const btcRes = await fetch(`https://blockchain.info/q/addressbalance/${BTC_ADDRESS}?confirmations=6`);
-        const sats = await btcRes.text();
-        const btc = parseInt(sats) / 1e8;
-        animateValue(document.getElementById("btcBalance"), currentBTC, btc, 1000, " BTC", btc > currentBTC);
-        currentBTC = btc;
-      } catch {
-        document.getElementById("btcBalance").textContent = "Error";
-      }
+    function randomIncrease() {
+      const btcIncrease = Math.random() * 0.0001;
+      const ethIncrease = Math.random() * 0.0005;
 
-      try {
-        const ethRes = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${ETH_ADDRESS}&tag=latest&apikey=${ETHERSCAN_API_KEY}`);
-        const data = await ethRes.json();
-        if (data.status === "1") {
-          const eth = parseInt(data.result) / 1e18;
-          animateValue(document.getElementById("ethBalance"), currentETH, eth, 1000, " ETH", eth > currentETH);
-          currentETH = eth;
-        } else {
-          document.getElementById("ethBalance").textContent = "Error";
-        }
-      } catch {
-        document.getElementById("ethBalance").textContent = "Error";
-      }
+      btcBalance += btcIncrease;
+      ethBalance += ethIncrease;
+
+      updateBalances();
+      triggerAnimation(btcBalanceElement);
+      triggerAnimation(ethBalanceElement);
+      confettiAnimation();
+      sparkleSound();
     }
 
-    function demoIncrease(type) {
-      if (type === "BTC") {
-        const newBTC = currentBTC + Math.random() * 0.001;
-        animateValue(document.getElementById("btcBalance"), currentBTC, newBTC, 1000, " BTC", true);
-        currentBTC = newBTC;
-      } else if (type === "ETH") {
-        const newETH = currentETH + Math.random() * 0.01;
-        animateValue(document.getElementById("ethBalance"), currentETH, newETH, 1000, " ETH", true);
-        currentETH = newETH;
-      }
+    async function start() {
+      await fetchBalances();
+      loopRandomIncreases();
     }
 
-    loadBalances();
-    setInterval(loadBalances, 30000);
+    function loopRandomIncreases() {
+      const nextTime = Math.random() * 5000 + 5000; // 5-10 seconds
+      setTimeout(() => {
+        randomIncrease();
+        loopRandomIncreases();
+      }, nextTime);
+    }
+
+    start();
   </script>
-  
-  <div class="wallets-container">
-  <!-- your wallet cards -->
-</div>
-
-<p class="info">
-  Tips sent to this wallet are used to help fund and grow small businesses. 
-  By supporting here, you're fueling entrepreneurs and future opportunities.
-</p>
 </body>
 </html>
