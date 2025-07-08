@@ -58,6 +58,25 @@
       color: #555;
       line-height: 1.6;
     }
+    .contact-note {
+      position: fixed;
+      bottom: 15px;
+      right: 20px;
+      font-size: 0.95em;
+      color: #444;
+      background: rgba(255,255,255,0.7);
+      padding: 8px 14px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .contact-note a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+    .contact-note a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -79,6 +98,13 @@
     Your support directly helps entrepreneurs grow and create new opportunities.
   </p>
 
+  <div class="contact-note">
+  <svg viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle; margin-right: 6px;">
+    <path fill="#1DA1F2" d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.37 8.66 8.66 0 01-2.73 1.04 4.27 4.27 0 00-7.28 3.89A12.12 12.12 0 013 4.79a4.27 4.27 0 001.32 5.7 4.2 4.2 0 01-1.93-.53v.05a4.28 4.28 0 003.42 4.19 4.3 4.3 0 01-1.93.07 4.28 4.28 0 003.99 2.97A8.6 8.6 0 013 19.54a12.1 12.1 0 006.56 1.92c7.88 0 12.2-6.53 12.2-12.2l-.01-.56A8.62 8.62 0 0024 5.5a8.47 8.47 0 01-2.54.7z"/>
+  </svg>
+  <a href="https://x.com/qazwsxz12" target="_blank">Contact me on X!</a>
+  </div>
+
   <script>
     const btcBalanceElement = document.getElementById("btcBalance");
     const ethBalanceElement = document.getElementById("ethBalance");
@@ -92,12 +118,10 @@
 
     async function fetchBalances() {
       try {
-        // Fetch Bitcoin balance (in satoshis, convert to BTC)
         const btcResponse = await fetch(`https://api.blockcypher.com/v1/btc/main/addrs/${btcAddress}/balance`);
         const btcData = await btcResponse.json();
-        btcBalance = btcData.final_balance / 100000000; // sat to BTC
+        btcBalance = btcData.final_balance / 100000000;
 
-        // Fetch Ethereum balance (in Wei, convert to ETH)
         const ethResponse = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${ethAddress}&tag=latest&apikey=${etherscanApiKey}`);
         const ethData = await ethResponse.json();
         ethBalance = parseFloat(ethData.result) / (10 ** 18);
@@ -151,7 +175,7 @@
     }
 
     function loopRandomIncreases() {
-      const nextTime = Math.random() * 5000 + 5000; // 5-10 seconds
+      const nextTime = Math.random() * 5000 + 5000;
       setTimeout(() => {
         randomIncrease();
         loopRandomIncreases();
