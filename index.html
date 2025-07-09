@@ -75,14 +75,15 @@
       bottom: 120%;
       left: 50%;
       transform: translateX(-50%);
-      background: #333;
-      color: #fff;
+      background: rgba(240, 240, 240, 0.95);
+      color: #333;
       padding: 4px 8px;
       border-radius: 4px;
       font-size: 0.75em;
       white-space: nowrap;
       opacity: 0;
       visibility: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       transition: opacity 0.3s;
     }
     .tooltip::after {
@@ -93,7 +94,7 @@
       transform: translateX(-50%);
       border-width: 5px;
       border-style: solid;
-      border-color: #333 transparent transparent transparent;
+      border-color: rgba(240,240,240,0.95) transparent transparent transparent;
     }
     .copy-circle:hover .tooltip {
       opacity: 1;
