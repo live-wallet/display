@@ -48,6 +48,7 @@
       margin-bottom: 8px;
       transition: color 0.5s, transform 0.5s;
     }
+
     .copy-circle {
       width: 40px;
       height: 40px;
@@ -58,6 +59,7 @@
       justify-content: center;
       margin: 15px auto 0;
       cursor: pointer;
+      position: relative;
       transition: background 0.3s;
     }
     .copy-circle:hover {
@@ -67,6 +69,37 @@
       width: 20px;
       height: 20px;
     }
+
+    .tooltip {
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75em;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+    }
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+    .copy-circle:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
     .copied-msg {
       position: absolute;
       bottom: -20px;
@@ -123,6 +156,7 @@
       <div class="balance" id="btcBalance">0 BTC</div>
       <div>Bitcoin</div>
       <div class="copy-circle" onclick="copyAddress(this)" data-address="your-bitcoin-wallet-address">
+        <div class="tooltip">Copy Bitcoin address</div>
         <svg viewBox="0 0 32 32">
           <path fill="#f7931a" d="M16 0c8.836 0 16 7.164 16 16s-7.164 16-16 16S0 24.836 0 16 7.164 0 16 0z"/>
           <path fill="#fff" d="M20.192 14.56c.308-2.062-1.264-3.176-3.42-3.91l.698-2.8-1.704-.423-.68 2.727c-.448-.112-.908-.218-1.36-.324l.685-2.74-1.704-.423-.698 2.8c-.368-.085-.73-.17-1.084-.259l.002-.009-2.35-.584-.453 1.815s1.264.29 1.238.309c.691.172.815.63.793.993l-.79 3.166c.047.012.107.03.173.058l-.174-.043-1.106 4.43c-.084.208-.297.52-.778.402.017.024-1.24-.309-1.24-.309l-.845 1.947 2.215.552c.41.102.814.21 1.214.313l-.705 2.832 1.703.423.698-2.802c.462.125.91.242 1.348.353l-.693 2.78 1.704.423.705-2.832c2.909.551 5.094.328 6.021-2.305.742-2.112-.037-3.332-1.566-4.127 1.113-.257 1.951-.988 2.175-2.497zm-3.893 5.44c-.527 2.112-4.09.972-5.24.684l.934-3.746c1.15.287 4.854.855 4.306 3.062zm.53-5.462c-.48 1.924-3.442.945-4.401.705l.847-3.4c.959.24 4.05.687 3.554 2.695z"/>
@@ -134,6 +168,7 @@
       <div class="balance" id="ethBalance">0 ETH</div>
       <div>Ethereum</div>
       <div class="copy-circle" onclick="copyAddress(this)" data-address="your-ethereum-wallet-address">
+        <div class="tooltip">Copy Ethereum address</div>
         <svg viewBox="0 0 256 417">
           <polygon fill="#343434" points="127.9,0 125.1,9.3 125.1,279.4 127.9,282.1 255.8,208.4 "/>
           <polygon fill="#8C8C8C" points="127.9,0 0,208.4 127.9,282.1 127.9,150.1 "/>
@@ -211,4 +246,3 @@
   </script>
 </body>
 </html>
-
