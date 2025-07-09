@@ -25,7 +25,7 @@
     }
     .wallets-container {
       display: flex;
-      gap: 20px;
+      gap: 40px;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
@@ -35,9 +35,9 @@
       border-radius: 20px;
       padding: 20px 30px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      text-align: center;
       min-width: 180px;
       transition: transform 0.2s;
+      position: relative;
     }
     .wallet:hover {
       transform: translateY(-4px);
@@ -48,6 +48,37 @@
       margin-bottom: 8px;
       transition: color 0.5s, transform 0.5s;
     }
+    .copy-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px auto 0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .copy-circle:hover {
+      background: #ddd;
+    }
+    .copy-circle svg {
+      fill: #333;
+      width: 18px;
+      height: 18px;
+    }
+    .copied-msg {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8em;
+      color: #28a745;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
     .info {
       max-width: 500px;
       text-align: center;
@@ -92,10 +123,18 @@
     <div class="wallet">
       <div class="balance" id="btcBalance">0 BTC</div>
       <div>Bitcoin</div>
+      <div class="copy-circle" onclick="copyAddress(this)" data-address="bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </div>
+      <div class="copied-msg">Copied!</div>
     </div>
     <div class="wallet">
       <div class="balance" id="ethBalance">0 ETH</div>
       <div>Ethereum</div>
+      <div class="copy-circle" onclick="copyAddress(this)" data-address="0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 18H8V7h11v16z"/></svg>
+      </div>
+      <div class="copied-msg">Copied!</div>
     </div>
   </div>
 
@@ -144,6 +183,17 @@
         el.style.transform = "scale(1)";
         el.style.color = "#333";
       }, 500);
+    }
+
+    function copyAddress(el) {
+      const address = el.getAttribute("data-address");
+      navigator.clipboard.writeText(address).then(() => {
+        const msg = el.parentElement.querySelector('.copied-msg');
+        msg.style.opacity = 1;
+        setTimeout(() => {
+          msg.style.opacity = 0;
+        }, 1000);
+      });
     }
 
     setInterval(() => {
