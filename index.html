@@ -20,41 +20,43 @@
     color: #333;
   }
   h1 {
-    font-size: 2.2em;
+    font-size: clamp(1.8em, 4vw, 2.5em);
     margin-bottom: 30px;
   }
+
   .wallets-container {
     display: flex;
-    gap: 20px;
+    gap: min(4vw, 40px);
     justify-content: center;
     align-items: stretch;
-    flex-wrap: nowrap; /* force single line */
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px;
+    flex-wrap: wrap;
   }
+
   .wallet {
     background: #fff;
     border-radius: 20px;
-    padding: 15px;
+    padding: 2rem;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    flex: 1 1 0;
-    min-width: 120px;
+    flex: 1 1 300px; /* grow but limit min width */
     transition: transform 0.2s;
     position: relative;
   }
   .wallet:hover {
     transform: translateY(-4px);
   }
+
   .balance {
-    font-size: 1.6em;
+    font-size: clamp(1.4em, 3vw, 2em);
     font-weight: bold;
     margin-bottom: 8px;
     transition: color 0.5s, transform 0.5s;
   }
 
   .copy-circle {
-    width: 50px;
-    height: 50px;
+    width: clamp(45px, 6vw, 60px);
+    height: clamp(45px, 6vw, 60px);
     border-radius: 50%;
     background: #eee;
     display: flex;
@@ -68,14 +70,15 @@
   .copy-circle:hover {
     background: #ddd;
   }
+
   .btc-icon {
-    width: 35px;
-    height: 35px;
+    width: clamp(30px, 5vw, 45px);
+    height: clamp(30px, 5vw, 45px);
     transform: translateX(3.5px);
   }
   .eth-icon {
-    width: 25px;
-    height: 25px;
+    width: clamp(22px, 4vw, 30px);
+    height: clamp(22px, 4vw, 30px);
   }
 
   .tooltip {
@@ -121,17 +124,17 @@
   }
 
   .info {
-    max-width: 500px;
+    max-width: 600px;
     text-align: center;
     margin-top: 40px;
-    font-size: 1em;
+    font-size: clamp(0.9em, 2.5vw, 1.2em);
     color: #444;
   }
 
   .contact-circle {
     margin-top: 40px;
-    width: 60px;
-    height: 60px;
+    width: clamp(50px, 6vw, 70px);
+    height: clamp(50px, 6vw, 70px);
     border-radius: 50%;
     background: #eee;
     display: flex;
@@ -151,29 +154,8 @@
   }
   .contact-circle svg {
     fill: #000;
-    width: 24px;
-    height: 24px;
-  }
-
-  @media (max-width: 400px) {
-    .wallets-container {
-      gap: 10px;
-    }
-    .balance {
-      font-size: 1.4em;
-    }
-    .copy-circle {
-      width: 45px;
-      height: 45px;
-    }
-    .btc-icon {
-      width: 30px;
-      height: 30px;
-    }
-    .eth-icon {
-      width: 22px;
-      height: 22px;
-    }
+    width: clamp(20px, 4vw, 28px);
+    height: clamp(20px, 4vw, 28px);
   }
 </style>
 </head>
