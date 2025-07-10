@@ -29,17 +29,15 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      width: 100%;
-      max-width: 600px;
+      max-width: 100%;
     }
     .wallet {
       background: #fff;
       border-radius: 20px;
-      padding: 20px;
+      padding: 15px 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      flex: 1 1 140px;
-      max-width: 220px;
-      width: 100%;
+      min-width: 130px;
+      flex: 1 1 130px;
       transition: transform 0.2s;
       position: relative;
     }
@@ -154,6 +152,12 @@
       fill: #000;
       width: 24px;
       height: 24px;
+    }
+
+    @media (max-width: 300px) {
+      .wallets-container {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
