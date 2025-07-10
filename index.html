@@ -19,29 +19,38 @@
       padding: 40px 20px;
       color: #333;
     }
+
     h1 {
       font-size: 2.2em;
       margin-bottom: 30px;
     }
+
     .wallets-container {
       display: flex;
-      gap: 40px;
+      gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      width: 100%;
+      max-width: 600px;
     }
+
     .wallet {
       background: #fff;
       border-radius: 20px;
-      padding: 20px 30px;
+      padding: 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      min-width: 180px;
+      flex: 1 1 140px;  /* grow shrink basis */
+      max-width: 220px;
+      width: 100%;
       transition: transform 0.2s;
       position: relative;
     }
+
     .wallet:hover {
       transform: translateY(-4px);
     }
+
     .balance {
       font-size: 1.8em;
       font-weight: bold;
@@ -62,14 +71,17 @@
       position: relative;
       transition: background 0.3s;
     }
+
     .copy-circle:hover {
       background: #ddd;
     }
+
     .btc-icon {
       width: 35px;
       height: 35px;
       transform: translateX(3.5px);
     }
+
     .eth-icon {
       width: 25px;
       height: 25px;
@@ -91,6 +103,7 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       transition: opacity 0.3s;
     }
+
     .tooltip::after {
       content: '';
       position: absolute;
@@ -101,6 +114,7 @@
       border-style: solid;
       border-color: rgba(240,240,240,0.95) transparent transparent transparent;
     }
+
     .copy-circle:hover .tooltip {
       opacity: 1;
       visibility: visible;
@@ -137,15 +151,18 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       transition: background 0.3s;
     }
+
     .contact-circle:hover {
       background: #ddd;
     }
+
     .contact-circle a {
       display: flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
     }
+
     .contact-circle svg {
       fill: #000;
       width: 24px;
@@ -170,6 +187,7 @@
       </div>
       <div class="copied-msg">Copied!</div>
     </div>
+
     <div class="wallet">
       <div class="balance" id="ethBalance">0 ETH</div>
       <div>Ethereum</div>
