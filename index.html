@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Wallet Balance</title>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
@@ -18,20 +18,17 @@
     padding: 20px;
     color: #333;
   }
-
   h1 {
-    font-size: 2rem;
+    font-size: 1.8em;
     margin-bottom: 20px;
   }
-
   .wallets-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
+    max-width: 400px;
   }
-
   .wallet {
     background: #fff;
     border-radius: 12px;
@@ -40,20 +37,17 @@
     transition: transform 0.2s;
     position: relative;
   }
-
   .wallet:hover {
     transform: translateY(-2px);
   }
-
   .balance {
-    font-size: 1.7rem;
+    font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 6px;
   }
-
   .copy-circle {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     background: #eee;
     display: flex;
@@ -63,22 +57,18 @@
     cursor: pointer;
     position: relative;
   }
-
   .copy-circle:hover {
     background: #ddd;
   }
-
   .btc-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     transform: translateX(2px);
   }
-
   .eth-icon {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
-
   .tooltip {
     position: absolute;
     bottom: 120%;
@@ -86,16 +76,15 @@
     transform: translateX(-50%);
     background: rgba(240, 240, 240, 0.95);
     color: #333;
-    padding: 4px 8px;
+    padding: 3px 6px;
     border-radius: 4px;
-    font-size: 0.75em;
+    font-size: 0.7em;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     transition: opacity 0.2s;
   }
-
   .tooltip::after {
     content: '';
     position: absolute;
@@ -106,34 +95,30 @@
     border-style: solid;
     border-color: rgba(240,240,240,0.95) transparent transparent transparent;
   }
-
   .copy-circle:hover .tooltip {
     opacity: 1;
     visibility: visible;
   }
-
   .copied-msg {
     position: absolute;
     bottom: -18px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.8em;
+    font-size: 0.75em;
     color: #28a745;
     opacity: 0;
     transition: opacity 0.2s;
   }
-
   .info {
-    max-width: 500px;
+    max-width: 400px;
     margin-top: 25px;
-    font-size: 1em;
+    font-size: 0.95em;
     color: #444;
-    padding: 0 10px;
   }
-
   .contact-circle {
-    width: 60px;
-    height: 60px;
+    margin-top: 25px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #eee;
     display: flex;
@@ -141,30 +126,14 @@
     justify-content: center;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     transition: background 0.2s;
-    margin-top: 30px;
   }
-
   .contact-circle:hover {
     background: #ddd;
   }
-
   .contact-circle svg {
     fill: #000;
-    width: 24px;
-    height: 24px;
-  }
-
-  /* Sticky bottom on larger (desktop-like) viewports */
-  @media (min-width: 768px) {
-    body {
-      padding-bottom: 80px;
-    }
-    .contact-circle {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      margin-top: 0;
-    }
+    width: 20px;
+    height: 20px;
   }
 </style>
 </head>
@@ -205,7 +174,7 @@
 </div>
 
 <p class="info">
-  Contributions to this wallet support small businesses and entrepreneurs.
+  Contributions to this wallet support and grow small businesses.
 </p>
 
 <div class="contact-circle">
