@@ -8,7 +8,7 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    background: #ffffff;
+    background: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,32 +19,31 @@
     color: #333;
   }
   h1 {
-    font-size: 2em;
-    margin: 10px 0 20px;
+    font-size: 1.8em;
+    margin-bottom: 20px;
   }
   .wallets-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     width: 100%;
     max-width: 400px;
   }
   .wallet {
     background: #fff;
-    border-radius: 15px;
-    padding: 15px 20px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-    position: relative;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     transition: transform 0.2s;
+    position: relative;
   }
   .wallet:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
   .balance {
     font-size: 1.5em;
     font-weight: bold;
-    margin-bottom: 5px;
-    transition: color 0.5s, transform 0.5s;
+    margin-bottom: 6px;
   }
   .copy-circle {
     width: 45px;
@@ -57,32 +56,34 @@
     margin: 10px auto 0;
     cursor: pointer;
     position: relative;
-    transition: background 0.3s;
   }
   .copy-circle:hover {
     background: #ddd;
   }
-  .btc-icon, .eth-icon {
-    width: 28px;
-    height: 28px;
+  .btc-icon {
+    width: 30px;
+    height: 30px;
+    transform: translateX(2px);
   }
-  .btc-icon { transform: translateX(3px); }
-
+  .eth-icon {
+    width: 24px;
+    height: 24px;
+  }
   .tooltip {
     position: absolute;
     bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(240,240,240,0.95);
+    background: rgba(240, 240, 240, 0.95);
     color: #333;
-    padding: 4px 8px;
+    padding: 3px 6px;
     border-radius: 4px;
-    font-size: 0.75em;
+    font-size: 0.7em;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: opacity 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: opacity 0.2s;
   }
   .tooltip::after {
     content: '';
@@ -90,7 +91,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border-width: 5px;
+    border-width: 4px;
     border-style: solid;
     border-color: rgba(240,240,240,0.95) transparent transparent transparent;
   }
@@ -106,9 +107,8 @@
     font-size: 0.75em;
     color: #28a745;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
   }
-
   .info {
     max-width: 400px;
     margin-top: 25px;
@@ -124,22 +124,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-    transition: background 0.3s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: background 0.2s;
   }
   .contact-circle:hover {
     background: #ddd;
   }
-  .contact-circle a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-  }
   .contact-circle svg {
     fill: #000;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 </style>
 </head>
@@ -160,6 +154,7 @@
     </div>
     <div class="copied-msg">Copied!</div>
   </div>
+
   <div class="wallet">
     <div class="balance" id="ethBalance">0 ETH</div>
     <div>Ethereum</div>
@@ -179,7 +174,7 @@
 </div>
 
 <p class="info">
-  Contributions to this wallet are used to support and grow promising small businesses.
+  Contributions to this wallet support and grow small businesses.
 </p>
 
 <div class="contact-circle">
@@ -191,37 +186,40 @@
 </div>
 
 <script>
-  let btcBalance = 0;
-  let ethBalance = 0;
-  function updateBalance() {
-    let btcIncrease = (Math.random() * 0.001).toFixed(6);
-    let ethIncrease = (Math.random() * 0.01).toFixed(5);
-    btcBalance = (parseFloat(btcBalance) + parseFloat(btcIncrease)).toFixed(6);
-    ethBalance = (parseFloat(ethBalance) + parseFloat(ethIncrease)).toFixed(5);
-    document.getElementById("btcBalance").textContent = `${btcBalance} BTC`;
-    document.getElementById("ethBalance").textContent = `${ethBalance} ETH`;
-    animateIncrease("btcBalance");
-    animateIncrease("ethBalance");
-    confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
-  }
-  function animateIncrease(id) {
-    const el = document.getElementById(id);
-    el.style.transform = "scale(1.15)";
-    el.style.color = "#28a745";
+let btcBalance = 0;
+let ethBalance = 0;
+function updateBalance() {
+  let btcIncrease = (Math.random() * 0.001).toFixed(6);
+  let ethIncrease = (Math.random() * 0.01).toFixed(5);
+  btcBalance = (parseFloat(btcBalance) + parseFloat(btcIncrease)).toFixed(6);
+  ethBalance = (parseFloat(ethBalance) + parseFloat(ethIncrease)).toFixed(5);
+  document.getElementById("btcBalance").textContent = `${btcBalance} BTC`;
+  document.getElementById("ethBalance").textContent = `${ethBalance} ETH`;
+  animateIncrease("btcBalance");
+  animateIncrease("ethBalance");
+  confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+}
+function animateIncrease(id) {
+  const el = document.getElementById(id);
+  el.style.transform = "scale(1.1)";
+  el.style.color = "#28a745";
+  setTimeout(() => {
+    el.style.transform = "scale(1)";
+    el.style.color = "#333";
+  }, 400);
+}
+function copyAddress(el) {
+  const address = el.getAttribute("data-address");
+  navigator.clipboard.writeText(address).then(() => {
+    const msg = el.parentElement.querySelector('.copied-msg');
+    msg.style.opacity = 1;
     setTimeout(() => {
-      el.style.transform = "scale(1)";
-      el.style.color = "#333";
-    }, 400);
-  }
-  function copyAddress(el) {
-    const address = el.getAttribute("data-address");
-    navigator.clipboard.writeText(address).then(() => {
-      const msg = el.parentElement.querySelector('.copied-msg');
-      msg.style.opacity = 1;
-      setTimeout(() => { msg.style.opacity = 0; }, 900);
-    });
-  }
-  setInterval(() => updateBalance(), Math.random() * 5000 + 5000);
+      msg.style.opacity = 0;
+    }, 800);
+  });
+}
+setInterval(() => { updateBalance(); }, Math.random() * 5000 + 5000);
 </script>
+
 </body>
 </html>
