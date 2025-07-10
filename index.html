@@ -50,8 +50,8 @@
     }
 
     .copy-circle {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #eee;
       display: flex;
@@ -65,14 +65,14 @@
     .copy-circle:hover {
       background: #ddd;
     }
-    .btc-icon {
-      width: 35px;
-      height: 35px;
-      transform: translateX(5px);
+    .copy-circle svg {
+      width: 20px;
+      height: 20px;
     }
-    .eth-icon {
-      width: 25px;
-      height: 25px;
+    /* Slightly larger Bitcoin icon */
+    .btc-icon {
+      width: 24px;
+      height: 24px;
     }
 
     .tooltip {
@@ -175,7 +175,7 @@
       <div>Ethereum</div>
       <div class="copy-circle" onclick="copyAddress(this)" data-address="your-ethereum-wallet-address">
         <div class="tooltip">Copy Ethereum address</div>
-        <svg class="eth-icon" viewBox="0 0 256 417">
+        <svg viewBox="0 0 256 417">
           <polygon fill="#343434" points="127.9,0 125.1,9.3 125.1,279.4 127.9,282.1 255.8,208.4 "/>
           <polygon fill="#8C8C8C" points="127.9,0 0,208.4 127.9,282.1 127.9,150.1 "/>
           <polygon fill="#3C3C3B" points="127.9,307.2 126.3,308.8 126.3,414.8 127.9,417 255.9,232.8 "/>
