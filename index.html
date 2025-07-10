@@ -15,49 +15,46 @@
     text-align: center;
     min-height: 100vh;
     margin: 0;
-    padding: clamp(20px, 4vw, 60px);
+    padding: 20px;
     color: #333;
   }
   h1 {
-    font-size: clamp(1.8em, 4vw, 2.5em);
-    margin-bottom: clamp(20px, 4vw, 40px);
+    font-size: 2em;
+    margin: 10px 0 20px;
   }
   .wallets-container {
     display: flex;
-    gap: clamp(15px, 3vw, 40px);
-    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
     width: 100%;
-    max-width: 900px;
+    max-width: 400px;
   }
   .wallet {
     background: #fff;
-    border-radius: 20px;
-    padding: clamp(15px, 4vw, 30px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    flex: 1 1 0;
-    max-width: 300px;
-    transition: transform 0.2s;
+    border-radius: 15px;
+    padding: 15px 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
     position: relative;
+    transition: transform 0.2s;
   }
   .wallet:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
   }
   .balance {
-    font-size: clamp(1.4em, 3.5vw, 2em);
+    font-size: 1.5em;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     transition: color 0.5s, transform 0.5s;
   }
-
   .copy-circle {
-    width: clamp(45px, 6vw, 60px);
-    height: clamp(45px, 6vw, 60px);
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     background: #eee;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: clamp(10px, 3vw, 20px) auto 0;
+    margin: 10px auto 0;
     cursor: pointer;
     position: relative;
     transition: background 0.3s;
@@ -65,22 +62,18 @@
   .copy-circle:hover {
     background: #ddd;
   }
-  .btc-icon {
-    width: clamp(30px, 4vw, 40px);
-    height: clamp(30px, 4vw, 40px);
-    transform: translateX(3.5px);
+  .btc-icon, .eth-icon {
+    width: 28px;
+    height: 28px;
   }
-  .eth-icon {
-    width: clamp(22px, 3vw, 30px);
-    height: clamp(22px, 3vw, 30px);
-  }
+  .btc-icon { transform: translateX(3px); }
 
   .tooltip {
     position: absolute;
     bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(240, 240, 240, 0.95);
+    background: rgba(240,240,240,0.95);
     color: #333;
     padding: 4px 8px;
     border-radius: 4px;
@@ -105,36 +98,33 @@
     opacity: 1;
     visibility: visible;
   }
-
   .copied-msg {
     position: absolute;
-    bottom: -20px;
+    bottom: -18px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.8em;
+    font-size: 0.75em;
     color: #28a745;
     opacity: 0;
     transition: opacity 0.3s;
   }
 
   .info {
-    max-width: 600px;
-    text-align: center;
-    margin-top: clamp(30px, 5vw, 50px);
-    font-size: clamp(0.9em, 2.5vw, 1.1em);
+    max-width: 400px;
+    margin-top: 25px;
+    font-size: 0.95em;
     color: #444;
   }
-
   .contact-circle {
-    margin-top: clamp(30px, 5vw, 50px);
-    width: clamp(50px, 7vw, 70px);
-    height: clamp(50px, 7vw, 70px);
+    margin-top: 25px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #eee;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     transition: background 0.3s;
   }
   .contact-circle:hover {
@@ -148,8 +138,8 @@
   }
   .contact-circle svg {
     fill: #000;
-    width: clamp(20px, 4vw, 28px);
-    height: clamp(20px, 4vw, 28px);
+    width: 22px;
+    height: 22px;
   }
 </style>
 </head>
@@ -190,7 +180,6 @@
 
 <p class="info">
   Contributions to this wallet are used to support and grow promising small businesses.
-  Your support directly helps entrepreneurs bring new ideas to life.
 </p>
 
 <div class="contact-circle">
@@ -217,24 +206,22 @@
   }
   function animateIncrease(id) {
     const el = document.getElementById(id);
-    el.style.transform = "scale(1.2)";
+    el.style.transform = "scale(1.15)";
     el.style.color = "#28a745";
     setTimeout(() => {
       el.style.transform = "scale(1)";
       el.style.color = "#333";
-    }, 500);
+    }, 400);
   }
   function copyAddress(el) {
     const address = el.getAttribute("data-address");
     navigator.clipboard.writeText(address).then(() => {
       const msg = el.parentElement.querySelector('.copied-msg');
       msg.style.opacity = 1;
-      setTimeout(() => {
-        msg.style.opacity = 0;
-      }, 1000);
+      setTimeout(() => { msg.style.opacity = 0; }, 900);
     });
   }
-  setInterval(() => { updateBalance(); }, Math.random() * 5000 + 5000);
+  setInterval(() => updateBalance(), Math.random() * 5000 + 5000);
 </script>
 </body>
 </html>
