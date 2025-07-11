@@ -11,8 +11,8 @@
     background: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* center vertically */
+    align-items: center;     /* center horizontally */
     text-align: center;
     min-height: 100vh;
     margin: 0;
@@ -119,47 +119,45 @@
     font-size: 0.95em;
     color: #444;
   }
+
+  /* New supporters section */
   .supporters {
     margin-top: 30px;
-    width: 100%;
     max-width: 400px;
-    text-align: left;
-  }
-  .supporters h2 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  .supporter-list {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    align-items: center;
   }
   .supporter {
+    background: #fafafa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 320px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: #f9f9f9;
-    padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
-  .supporter img {
-    width: 32px;
-    height: 32px;
+  .supporter-icon {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    object-fit: cover;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 1.1em;
   }
-  .supporter .name {
-    font-weight: bold;
+  .supporter-name {
+    font-size: 0.95em;
+    color: #333;
   }
-  .supporter .amount {
-    margin-left: auto;
-    font-size: 0.9em;
-    color: #28a745;
-  }
+
   .contact-circle {
-    margin-top: 35px;
+    margin-top: 30px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -221,23 +219,17 @@
 </p>
 
 <div class="supporters">
-  <h2>Recent Supporters</h2>
-  <div class="supporter-list">
-    <div class="supporter">
-      <img src="https://i.pravatar.cc/32?u=alice" alt="Alice">
-      <div class="name">Alice</div>
-      <div class="amount">+0.002 BTC</div>
-    </div>
-    <div class="supporter">
-      <img src="https://i.pravatar.cc/32?u=bob" alt="Bob">
-      <div class="name">Bob</div>
-      <div class="amount">+0.01 ETH</div>
-    </div>
-    <div class="supporter">
-      <img src="https://i.pravatar.cc/32?u=carol" alt="Carol">
-      <div class="name">Carol</div>
-      <div class="amount">+0.001 BTC</div>
-    </div>
+  <div class="supporter">
+    <div class="supporter-icon">😊</div>
+    <div class="supporter-name">Alice tipped 0.005 BTC</div>
+  </div>
+  <div class="supporter">
+    <div class="supporter-icon">🎉</div>
+    <div class="supporter-name">0xAbC1...D23 sent 0.2 ETH</div>
+  </div>
+  <div class="supporter">
+    <div class="supporter-icon">🚀</div>
+    <div class="supporter-name">Bob gave 0.003 BTC</div>
   </div>
 </div>
 
