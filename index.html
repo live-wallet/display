@@ -138,6 +138,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     font-size: 0.9em;
     white-space: nowrap;
+    transition: all 0.3s;
   }
   .contact-circle {
     margin-top: 30px;
@@ -202,12 +203,7 @@
 </p>
 
 <h2>Recent Supporters</h2>
-<div class="supporters">
-  <div class="supporter-card">Alice supported with 0.005 BTC</div>
-  <div class="supporter-card">0xAbc...123 supported with 0.2 ETH</div>
-  <div class="supporter-card">Bob supported with 0.001 BTC</div>
-  <div class="supporter-card">0x987...def supported with 0.15 ETH</div>
-</div>
+<div class="supporters" id="supportersContainer"></div>
 
 <div class="contact-circle">
   <a href="https://x.com/qazwsxz12" target="_blank">
@@ -220,17 +216,37 @@
 <script>
 let btcBalance = 0;
 let ethBalance = 0;
-function updateBalance() {
-  let btcIncrease = (Math.random() * 0.001).toFixed(6);
-  let ethIncrease = (Math.random() * 0.01).toFixed(5);
-  btcBalance = (parseFloat(btcBalance) + parseFloat(btcIncrease)).toFixed(6);
-  ethBalance = (parseFloat(ethBalance) + parseFloat(ethIncrease)).toFixed(5);
-  document.getElementById("btcBalance").textContent = `${btcBalance} BTC`;
-  document.getElementById("ethBalance").textContent = `${ethBalance} ETH`;
-  animateIncrease("btcBalance");
-  animateIncrease("ethBalance");
+const supporters = [];
+const supporterNames = ["Alice", "Bob", "Charlie", "Dana", "Eve", "0xAbc...123", "0x987...def", "Frank", "0xBEE...001", "Grace"];
+
+function addSupporter() {
+  const isBTC = Math.random() < 0.5;
+  const name = supporterNames[Math.floor(Math.random() * supporterNames.length)];
+  const amount = isBTC 
+    ? (Math.random() * 0.005 + 0.0005).toFixed(6)
+    : (Math.random() * 0.05 + 0.005).toFixed(5);
+
+  if (isBTC) {
+    btcBalance = (parseFloat(btcBalance) + parseFloat(amount)).toFixed(6);
+    document.getElementById("btcBalance").textContent = `${btcBalance} BTC`;
+    animateIncrease("btcBalance");
+  } else {
+    ethBalance = (parseFloat(ethBalance) + parseFloat(amount)).toFixed(5);
+    document.getElementById("ethBalance").textContent = `${ethBalance} ETH`;
+    animateIncrease("ethBalance");
+  }
+
+  supporters.unshift(`${name} supported with ${amount} ${isBTC ? 'BTC' : 'ETH'}`);
+  if (supporters.length > 4) supporters.pop();
+  updateSupporters();
   confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
 }
+
+function updateSupporters() {
+  const container = document.getElementById("supportersContainer");
+  container.innerHTML = supporters.map(s => `<div class="supporter-card">${s}</div>`).join('');
+}
+
 function animateIncrease(id) {
   const el = document.getElementById(id);
   el.style.transform = "scale(1.1)";
@@ -240,17 +256,18 @@ function animateIncrease(id) {
     el.style.color = "#333";
   }, 400);
 }
+
 function copyAddress(el) {
   const address = el.getAttribute("data-address");
   navigator.clipboard.writeText(address).then(() => {
     const msg = el.parentElement.querySelector('.copied-msg');
     msg.style.opacity = 1;
-    setTimeout(() => {
-      msg.style.opacity = 0;
-    }, 800);
+    setTimeout(() => { msg.style.opacity = 0; }, 800);
   });
 }
-setInterval(() => { updateBalance(); }, Math.random() * 5000 + 5000);
+
+// run periodically
+setInterval(addSupporter, Math.random() * 5000 + 5000);
 </script>
 
 </body>
