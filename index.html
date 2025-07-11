@@ -217,14 +217,19 @@
 let btcBalance = 0;
 let ethBalance = 0;
 const supporters = [];
-const supporterNames = ["Alice", "Bob", "Charlie", "Dana", "Eve", "0xAbc...123", "0x987...def", "Frank", "0xBEE...001", "Grace"];
+const names = ["Alice", "Bob", "Charlie", "Dana", "Eve", "0xAbc...123", "0x987...def"];
+const xHandles = ["@cryptocat", "@donor_dave", "@alice_tip", "@bobby_eth", "@blockchain_bob"];
 
 function addSupporter() {
   const isBTC = Math.random() < 0.5;
-  const name = supporterNames[Math.floor(Math.random() * supporterNames.length)];
   const amount = isBTC 
     ? (Math.random() * 0.005 + 0.0005).toFixed(6)
     : (Math.random() * 0.05 + 0.005).toFixed(5);
+
+  const useXHandle = Math.random() < 0.5;
+  const name = useXHandle 
+    ? xHandles[Math.floor(Math.random() * xHandles.length)]
+    : names[Math.floor(Math.random() * names.length)];
 
   if (isBTC) {
     btcBalance = (parseFloat(btcBalance) + parseFloat(amount)).toFixed(6);
@@ -243,8 +248,8 @@ function addSupporter() {
 }
 
 function updateSupporters() {
-  const container = document.getElementById("supportersContainer");
-  container.innerHTML = supporters.map(s => `<div class="supporter-card">${s}</div>`).join('');
+  document.getElementById("supportersContainer").innerHTML = supporters
+    .map(s => `<div class="supporter-card">${s}</div>`).join('');
 }
 
 function animateIncrease(id) {
@@ -258,15 +263,13 @@ function animateIncrease(id) {
 }
 
 function copyAddress(el) {
-  const address = el.getAttribute("data-address");
-  navigator.clipboard.writeText(address).then(() => {
+  navigator.clipboard.writeText(el.getAttribute("data-address")).then(() => {
     const msg = el.parentElement.querySelector('.copied-msg');
     msg.style.opacity = 1;
-    setTimeout(() => { msg.style.opacity = 0; }, 800);
+    setTimeout(() => msg.style.opacity = 0, 800);
   });
 }
 
-// run periodically
 setInterval(addSupporter, Math.random() * 5000 + 5000);
 </script>
 
