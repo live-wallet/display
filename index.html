@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Wallet Balance</title>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
   body {
     font-family: Arial, sans-serif;
     background: #fff;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     text-align: center;
     min-height: 100vh;
@@ -18,9 +18,8 @@
     padding: 20px;
     color: #333;
   }
-  h1 {
-    font-size: 1.8em;
-    margin-bottom: 20px;
+  h1, h2 {
+    margin: 20px 0;
   }
   .wallets-container {
     display: flex;
@@ -35,13 +34,8 @@
     border-radius: 12px;
     padding: 15px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
-    position: relative;
     width: 100%;
     max-width: 300px;
-  }
-  .wallet:hover {
-    transform: translateY(-2px);
   }
   .balance {
     font-size: 1.5em;
@@ -54,26 +48,20 @@
     font-size: 0.95em;
     color: #444;
   }
-  h2 {
-    font-size: 1.4em;
-    margin: 30px 0 15px;
-    color: #333;
-  }
   .supporters {
     max-width: 400px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 15px;
   }
   .supporter-card {
     background: #f9f9f9;
     padding: 8px 14px;
-    border-radius: 20px;
+    border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     font-size: 0.9em;
-    white-space: nowrap;
-    transition: all 0.3s;
+    word-break: break-all;
   }
   .contact-circle {
     margin-top: 30px;
@@ -86,31 +74,21 @@
     justify-content: center;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     transition: background 0.2s;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
   }
-  .contact-circle:hover {
-    background: #ddd;
-  }
-  .contact-circle svg {
-    fill: #000;
-    width: 20px;
-    height: 20px;
-  }
+  .contact-circle:hover { background: #ddd; }
+  .contact-circle svg { fill: #000; width: 20px; height: 20px; }
 </style>
 </head>
 <body>
 
 <h1>Wallet Balance</h1>
-
 <div class="wallets-container">
   <div class="wallet">
-    <div class="balance" id="btcBalance">Loading...</div>
+    <div class="balance" id="btcBalance">Loading BTC...</div>
     <div>Bitcoin</div>
   </div>
   <div class="wallet">
-    <div class="balance" id="ethBalance">Loading...</div>
+    <div class="balance" id="ethBalance">Loading ETH...</div>
     <div>Ethereum</div>
   </div>
 </div>
@@ -120,7 +98,9 @@
 </p>
 
 <h2>Recent Supporters</h2>
-<div class="supporters" id="supportersContainer">Loading supporters...</div>
+<div class="supporters" id="supportersContainer">
+  <div>Loading recent supporters...</div>
+</div>
 
 <div class="contact-circle">
   <a href="https://x.com/qazwsxz12" target="_blank">
@@ -135,65 +115,56 @@ const btcAddress = "bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep";
 const ethAddress = "0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e";
 const etherscanApiKey = "7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW";
 
-async function fetchBTCBalance() {
-  const response = await fetch(`https://blockstream.info/api/address/${btcAddress}`);
-  const data = await response.json();
-  const btc = (data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum) / 1e8;
-  document.getElementById("btcBalance").textContent = `${btc.toFixed(8)} BTC`;
-}
-
-async function fetchETHBalance() {
-  const response = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${ethAddress}&tag=latest&apikey=${etherscanApiKey}`);
-  const data = await response.json();
-  const eth = parseFloat(data.result) / 1e18;
-  document.getElementById("ethBalance").textContent = `${eth.toFixed(6)} ETH`;
-}
-
-async function fetchRecentBTC() {
-  const response = await fetch(`https://blockstream.info/api/address/${btcAddress}/txs`);
-  const txs = await response.json();
-  return txs.filter(tx => tx.vout.some(v => v.scriptpubkey_address === btcAddress))
-            .map(tx => ({
-              from: tx.vin[0].prevout.scriptpubkey_address.slice(0,8) + "...",
-              amount: tx.vout.find(v => v.scriptpubkey_address === btcAddress).value / 1e8,
-              currency: "BTC"
-            }));
-}
-
-async function fetchRecentETH() {
-  const response = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${ethAddress}&startblock=0&endblock=99999999&sort=desc&apikey=${etherscanApiKey}`);
-  const data = await response.json();
-  return data.result.filter(tx => tx.to && tx.to.toLowerCase() === ethAddress.toLowerCase())
-            .map(tx => ({
-              from: tx.from.slice(0,8) + "...",
-              amount: parseFloat(tx.value) / 1e18,
-              currency: "ETH"
-            }));
-}
-
-async function updateSupporters() {
-  const [btcTxs, ethTxs] = await Promise.all([fetchRecentBTC(), fetchRecentETH()]);
-  const allTxs = [...btcTxs, ...ethTxs].sort(() => 0.5 - Math.random()).slice(0,4);
-
-  const container = document.getElementById("supportersContainer");
-  if(allTxs.length === 0){
-    container.innerHTML = "<div>No supporters yet.</div>";
-  } else {
-    container.innerHTML = allTxs.map(tx =>
-      `<div class="supporter-card">${tx.from} sent ${tx.amount.toFixed(6)} ${tx.currency}</div>`
-    ).join('');
-    confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } });
+async function fetchBTC() {
+  try {
+    const response = await fetch(`https://blockchain.info/q/addressbalance/${btcAddress}?confirmations=3`);
+    const satoshis = await response.text();
+    const btc = (parseInt(satoshis) / 1e8).toFixed(8);
+    document.getElementById("btcBalance").textContent = `${btc} BTC`;
+  } catch (e) {
+    document.getElementById("btcBalance").textContent = "Error fetching BTC";
   }
 }
 
-async function updateAll() {
-  await fetchBTCBalance();
-  await fetchETHBalance();
-  await updateSupporters();
+async function fetchETH() {
+  try {
+    const response = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${ethAddress}&tag=latest&apikey=${etherscanApiKey}`);
+    const data = await response.json();
+    const eth = (parseFloat(data.result) / 1e18).toFixed(8);
+    document.getElementById("ethBalance").textContent = `${eth} ETH`;
+  } catch (e) {
+    document.getElementById("ethBalance").textContent = "Error fetching ETH";
+  }
 }
 
+async function fetchRecentSupporters() {
+  try {
+    const response = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${ethAddress}&startblock=0&endblock=99999999&page=1&offset=4&sort=desc&apikey=${etherscanApiKey}`);
+    const data = await response.json();
+    const supportersContainer = document.getElementById("supportersContainer");
+    supportersContainer.innerHTML = "";
+    data.result.slice(0, 4).forEach(tx => {
+      const from = tx.from.slice(0,6) + "..." + tx.from.slice(-4);
+      const value = (parseFloat(tx.value) / 1e18).toFixed(6);
+      const card = document.createElement("div");
+      card.className = "supporter-card";
+      card.textContent = `${from} sent ${value} ETH`;
+      supportersContainer.appendChild(card);
+    });
+  } catch (e) {
+    document.getElementById("supportersContainer").innerHTML = "<div>Error loading supporters</div>";
+  }
+}
+
+function updateAll() {
+  fetchBTC();
+  fetchETH();
+  fetchRecentSupporters();
+}
+
+// Refresh every 30 sec
 updateAll();
-setInterval(updateAll, 15000);
+setInterval(updateAll, 30000);
 </script>
 
 </body>
