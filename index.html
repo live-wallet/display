@@ -28,7 +28,6 @@
     gap: 15px;
     width: 100%;
     max-width: 400px;
-    align-items: center;
   }
   .wallet {
     background: #fff;
@@ -37,8 +36,6 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     transition: transform 0.2s;
     position: relative;
-    width: 100%;
-    max-width: 300px;
   }
   .wallet:hover {
     transform: translateY(-2px);
@@ -47,6 +44,20 @@
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 6px;
+  }
+  .progress-container {
+    width: 100%;
+    background: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 12px;
+    margin-top: 8px;
+  }
+  .progress-bar {
+    height: 12px;
+    background: #28a745;
+    width: 0%;
+    transition: width 0.4s;
   }
   .copy-circle {
     width: 45px;
@@ -103,49 +114,23 @@
     visibility: visible;
   }
   .copied-msg {
-  position: absolute;
-  bottom: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.75em;
-  color: #444; /* changed from #28a745 to #444 */
-  opacity: 0;
-  transition: opacity 0.2s;
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75em;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.2s;
   }
-  
   .info {
     max-width: 400px;
     margin-top: 25px;
     font-size: 0.95em;
     color: #444;
   }
-  h2 {
-    font-size: 1.4em;
-    margin: 30px 0 15px;
-    color: #333;
-  }
-  .supporters {
-    max-width: 400px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-  .supporter-card {
-    background: #f9f9f9;
-    padding: 8px 14px;
-    border-radius: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    font-size: 0.9em;
-    white-space: nowrap;
-    transition: all 0.3s;
-  }
-  .supporter-card a {
-    text-decoration: none;
-    color: #1DA1F2;
-  }
   .contact-circle {
-    margin-top: 30px;
+    margin-top: 25px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -172,8 +157,9 @@
 
 <div class="wallets-container">
   <div class="wallet">
-    <div class="balance" id="btcBalance">Loading...</div>
+    <div class="balance" id="btcBalance">0 BTC</div>
     <div>Bitcoin</div>
+    <div class="progress-container"><div class="progress-bar" id="btcProgress"></div></div>
     <div class="copy-circle" onclick="copyAddress(this)" data-address="bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep">
       <div class="tooltip">Copy Bitcoin address</div>
       <svg class="btc-icon" viewBox="0 0 32 32">
@@ -185,8 +171,9 @@
   </div>
 
   <div class="wallet">
-    <div class="balance" id="ethBalance">Loading...</div>
+    <div class="balance" id="ethBalance">0 ETH</div>
     <div>Ethereum</div>
+    <div class="progress-container"><div class="progress-bar" id="ethProgress"></div></div>
     <div class="copy-circle" onclick="copyAddress(this)" data-address="0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e">
       <div class="tooltip">Copy Ethereum address</div>
       <svg class="eth-icon" viewBox="0 0 256 417">
@@ -202,18 +189,7 @@
   </div>
 </div>
 
-<p class="info">
-  Contributions to this wallet support and grow businesses.
-</p>
-
-<h2>Recent Supporters</h2>
-<div class="supporters" id="supporters">
-  <div class="supporter-card">Loading supporters...</div>
-</div>
-
-  <p class="info">
-  Interested in what I've built here? Send me a message on X.
-  </p>
+<p class="info">Contributions to this wallet support and grow small businesses.</p>
 
 <div class="contact-circle">
   <a href="https://x.com/qazwsxz12" target="_blank">
@@ -224,72 +200,44 @@
 </div>
 
 <script>
+let btcBalance = 0;
+let ethBalance = 0;
+function updateBalance() {
+  let btcIncrease = (Math.random() * 0.001).toFixed(6);
+  let ethIncrease = (Math.random() * 0.01).toFixed(5);
+  btcBalance = (parseFloat(btcBalance) + parseFloat(btcIncrease)).toFixed(6);
+  ethBalance = (parseFloat(ethBalance) + parseFloat(ethIncrease)).toFixed(5);
+  document.getElementById("btcBalance").textContent = `${btcBalance} BTC`;
+  document.getElementById("ethBalance").textContent = `${ethBalance} ETH`;
+  updateProgress("btcProgress", btcBalance, 1);
+  updateProgress("ethProgress", ethBalance, 1);
+  animateIncrease("btcBalance");
+  animateIncrease("ethBalance");
+  confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+}
+function updateProgress(id, value, goal) {
+  let percent = Math.min((parseFloat(value) / goal) * 100, 100);
+  document.getElementById(id).style.width = percent + "%";
+}
+function animateIncrease(id) {
+  const el = document.getElementById(id);
+  el.style.transform = "scale(1.1)";
+  el.style.color = "#28a745";
+  setTimeout(() => {
+    el.style.transform = "scale(1)";
+    el.style.color = "#333";
+  }, 400);
+}
 function copyAddress(el) {
-  navigator.clipboard.writeText(el.getAttribute("data-address")).then(() => {
+  const address = el.getAttribute("data-address");
+  navigator.clipboard.writeText(address).then(() => {
     const msg = el.parentElement.querySelector('.copied-msg');
     msg.style.opacity = 1;
-    setTimeout(() => msg.style.opacity = 0, 800);
+    setTimeout(() => { msg.style.opacity = 0; }, 800);
   });
 }
-
-// Fetch balances
-fetch(`https://blockchain.info/q/addressbalance/bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep?confirmations=3`)
-  .then(res => res.text())
-  .then(sats => {
-    const btc = (parseInt(sats) / 100000000).toFixed(8);
-    document.getElementById("btcBalance").textContent = `${btc} BTC`;
-  })
-  .catch(() => document.getElementById("btcBalance").textContent = "Error");
-
-fetch(`https://api.etherscan.io/api?module=account&action=balance&address=0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e&tag=latest&apikey=7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW`)
-  .then(res => res.json())
-  .then(data => {
-    const eth = (parseInt(data.result) / 1e18).toFixed(8);
-    document.getElementById("ethBalance").textContent = `${eth} ETH`;
-  })
-  .catch(() => document.getElementById("ethBalance").textContent = "Error");
-
-// Fetch recent BTC + ETH transactions
-Promise.all([
-  fetch(`https://blockchain.info/rawaddr/bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep`).then(r=>r.json()).catch(()=>null),
-  fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e&sort=desc&apikey=7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW`)
-    .then(r=>r.json()).catch(()=>null)
-]).then(([btcData, ethData])=>{
-  let supporters = [];
-  if(btcData && btcData.txs){
-    btcData.txs.slice(0,4).forEach(tx=>{
-      tx.inputs.forEach(inp=>{
-        supporters.push({
-          address: inp.prev_out.addr,
-          amount: (inp.prev_out.value/1e8).toFixed(8)+" BTC"
-        });
-      });
-    });
-  }
-  if(ethData && ethData.result){
-    ethData.result.slice(0,4).forEach(tx=>{
-      if(tx.to.toLowerCase() === "0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e".toLowerCase()){
-        supporters.push({
-          address: tx.from,
-          amount: (parseInt(tx.value)/1e18).toFixed(8)+" ETH"
-        });
-      }
-    });
-  }
-
-  const container = document.getElementById("supporters");
-  container.innerHTML = "";
-  if(supporters.length){
-    supporters.slice(0,4).forEach(sup=>{
-      const card = document.createElement("div");
-      card.className = "supporter-card";
-      card.textContent = `${sup.address.slice(0,6)}...${sup.address.slice(-4)} tipped ${sup.amount}`;
-      container.appendChild(card);
-    });
-  } else {
-    container.innerHTML = `<div class="supporter-card">No recent supporters yet.</div>`;
-  }
-});
+setInterval(() => { updateBalance(); }, Math.random() * 5000 + 5000);
 </script>
+
 </body>
 </html>
