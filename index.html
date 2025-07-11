@@ -140,6 +140,10 @@
     white-space: nowrap;
     transition: all 0.3s;
   }
+  .supporter-card a {
+    text-decoration: none;
+    color: #1DA1F2;
+  }
   .contact-circle {
     margin-top: 30px;
     width: 50px;
@@ -241,15 +245,21 @@ function addSupporter() {
     animateIncrease("ethBalance");
   }
 
-  supporters.unshift(`${name} supported with ${amount} ${isBTC ? 'BTC' : 'ETH'}`);
+  supporters.unshift({ name, amount, currency: isBTC ? 'BTC' : 'ETH' });
   if (supporters.length > 4) supporters.pop();
   updateSupporters();
   confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
 }
 
 function updateSupporters() {
-  document.getElementById("supportersContainer").innerHTML = supporters
-    .map(s => `<div class="supporter-card">${s}</div>`).join('');
+  document.getElementById("supportersContainer").innerHTML = supporters.map(s => {
+    if (s.name.startsWith("@")) {
+      const handle = s.name.slice(1);
+      return `<div class="supporter-card"><a href="https://x.com/${handle}" target="_blank">${s.name}</a> supported with ${s.amount} ${s.currency}</div>`;
+    } else {
+      return `<div class="supporter-card">${s.name} supported with ${s.amount} ${s.currency}</div>`;
+    }
+  }).join('');
 }
 
 function animateIncrease(id) {
