@@ -11,8 +11,8 @@
     background: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* center vertically */
-    align-items: center;     /* center horizontally */
+    justify-content: center;
+    align-items: center;
     text-align: center;
     min-height: 100vh;
     margin: 0;
@@ -119,32 +119,47 @@
     font-size: 0.95em;
     color: #444;
   }
-  /* Supporters section */
   .supporters {
     margin-top: 30px;
     width: 100%;
     max-width: 400px;
+    text-align: left;
+  }
+  .supporters h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .supporter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .supporter {
-    background: #fafafa;
-    border-radius: 8px;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 0.9em;
+    gap: 10px;
+    background: #f9f9f9;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-  .supporter strong {
-    color: #333;
+  .supporter img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
   }
-  .supporter .amount {
-    color: #28a745;
+  .supporter .name {
     font-weight: bold;
   }
+  .supporter .amount {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: #28a745;
+  }
   .contact-circle {
-    margin-top: 30px;
+    margin-top: 35px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -206,9 +221,24 @@
 </p>
 
 <div class="supporters">
-  <div class="supporter"><strong>@alice</strong> tipped <span class="amount">0.005 BTC</span></div>
-  <div class="supporter"><strong>@bob_wallet</strong> tipped <span class="amount">0.07 ETH</span></div>
-  <div class="supporter"><strong>@charlie</strong> tipped <span class="amount">0.001 BTC</span></div>
+  <h2>Recent Supporters</h2>
+  <div class="supporter-list">
+    <div class="supporter">
+      <img src="https://i.pravatar.cc/32?u=alice" alt="Alice">
+      <div class="name">Alice</div>
+      <div class="amount">+0.002 BTC</div>
+    </div>
+    <div class="supporter">
+      <img src="https://i.pravatar.cc/32?u=bob" alt="Bob">
+      <div class="name">Bob</div>
+      <div class="amount">+0.01 ETH</div>
+    </div>
+    <div class="supporter">
+      <img src="https://i.pravatar.cc/32?u=carol" alt="Carol">
+      <div class="name">Carol</div>
+      <div class="amount">+0.001 BTC</div>
+    </div>
+  </div>
 </div>
 
 <div class="contact-circle">
