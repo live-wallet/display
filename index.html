@@ -18,9 +18,22 @@
     padding: 20px;
     color: #333;
   }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .header img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
   h1 {
     font-size: 1.8em;
-    margin-bottom: 20px;
+    margin: 0;
   }
   .wallets-container {
     display: flex;
@@ -163,7 +176,10 @@
 </head>
 <body>
 
-<h1>Wallet Balance</h1>
+<div class="header">
+  <img src="https://unavatar.io/x/qazwsxz12" alt="Profile picture">
+  <h1>Wallet Balance</h1>
+</div>
 
 <div class="wallets-container">
   <div class="wallet">
@@ -231,7 +247,6 @@ function formatBalance(val) {
   return parseFloat(val).toPrecision(6).replace(/\.?0+$/, '');
 }
 
-// Load USD prices
 let prices = {};
 fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd')
 .then(res => res.json())
@@ -297,7 +312,6 @@ fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_cur
       container.innerHTML = `<div class="supporter-card">No recent supporters yet.</div>`;
     }
   });
-
 });
 </script>
 </body>
