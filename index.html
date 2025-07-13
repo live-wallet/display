@@ -198,7 +198,7 @@
   <div class="wallet">
     <div class="balance" id="ethBalance">Loading...</div>
     <div>Ethereum</div>
-    <div class="copy-circle" onclick="copyAddress(this)" data-address="0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e">
+    <div class="copy-circle" onclick="copyAddress(this)" data-address="0xb96E27D05fE60A24a01A7672E7d3eFfC3BDB3d7e">
       <div class="tooltip">Copy Ethereum address</div>
       <svg class="eth-icon" viewBox="0 0 256 417">
         <polygon fill="#343434" points="127.9,0 125.1,9.3 125.1,279.4 127.9,282.1 255.8,208.4 "/>
@@ -263,7 +263,7 @@ function updateWalletData() {
           `${formatBalance(btc)} BTC ≈ $${(btc*prices.btc).toFixed(2)}`;
       });
 
-    fetch(`https://api.etherscan.io/api?module=account&action=balance&address=0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e&tag=latest&apikey=7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW`)
+    fetch(`https://api.etherscan.io/api?module=account&action=balance&address=0xb96E27D05fE60A24a01A7672E7d3eFfC3BDB3d7e&tag=latest&apikey=7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW`)
       .then(res => res.json())
       .then(data => {
         const eth = parseInt(data.result) / 1e18;
@@ -273,7 +273,7 @@ function updateWalletData() {
 
     Promise.all([
       fetch(`https://blockchain.info/rawaddr/bc1qjtgfw6dythprkvmkps7dmfm7dkkhtgy76q02ep`).then(r=>r.json()).catch(()=>null),
-      fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e&sort=desc&apikey=7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW`)
+      fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=0xb96E27D05fE60A24a01A7672E7d3eFfC3BDB3d7e&sort=desc&apikey=7HQVBFNBCEAYW31Z1B9V7W7G56KPR2XECW)
         .then(r=>r.json()).catch(()=>null)
     ]).then(([btcData, ethData])=>{
       let supporters = [];
@@ -290,7 +290,7 @@ function updateWalletData() {
       }
       if(ethData && ethData.result){
         ethData.result.slice(0,4).forEach(tx=>{
-          if(tx.to.toLowerCase() === "0xb96e27d05fe60a24a01a7672e7d3effc3bdb3d7e"){
+          if(tx.to.toLowerCase() === "0xb96E27D05fE60A24a01A7672E7d3eFfC3BDB3d7e"){
             let val = parseInt(tx.value)/1e18;
             supporters.push({
               address: tx.from,
